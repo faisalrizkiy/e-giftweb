@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Icebear Web Store — Template Ucapan Premium</title>
+<title id="pageTitle">e-Gift Web Store — Template Ucapan Premium</title>
+<meta name="description" content="e-Gift Web Store — template web ucapan premium: romantis, ulang tahun, dan hadiah digital. Siap pakai dalam hitungan menit.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="icon" href="img/logo.png">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -58,12 +60,21 @@ nav {
 .nav-logo {
   font-family:var(--font-d); font-style:italic; font-size:1.25rem; font-weight:700;
   color:var(--white); text-decoration:none;
-  display:flex; align-items:center; gap:9px; letter-spacing:.02em;
+  display:flex; align-items:center; gap:10px; letter-spacing:.02em;
+}
+.nav-logo-img {
+  height:32px; width:32px; object-fit:contain;
+  border-radius:8px; display:block; flex-shrink:0;
 }
 .nav-logo-dot {
   width:6px; height:6px; border-radius:50%;
   background:var(--rose); box-shadow:0 0 9px var(--rose);
   animation:pulse 3s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-logo-dot { animation:none; }
+  .card { transition:none; }
+  html { scroll-behavior:auto; }
 }
 @keyframes pulse {
   0%,100% { opacity:.75; }
@@ -289,7 +300,12 @@ footer {
 <body>
 
 <nav>
-  <a href="#" class="nav-logo"><span class="nav-logo-dot"></span>Icebear</a>
+  <a href="#home" class="nav-logo">
+    <img src="img/logo.png" alt="Logo e-Gift" class="nav-logo-img"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'">
+    <span class="nav-logo-dot" style="display:none"></span>
+    <span id="navSiteName">e-Gift</span>
+  </a>
   <ul class="nav-links">
     <li><a href="#templates">Template</a></li>
     <li><a href="#contact">Kontak</a></li>
@@ -304,8 +320,8 @@ footer {
   <p class="hero-sub">Template web ucapan dengan animasi, musik, dan foto — dirangkai penuh rasa, siap pakai dalam hitungan menit.</p>
   <div class="hero-stats">
     <div class="stat"><div class="stat-num" id="statCount">6<span>+</span></div><div class="stat-label">Template Aktif</div></div>
-    <div class="stat"><div class="stat-num">100<span>+</span></div><div class="stat-label">Pelanggan Puas</div></div>
-    <div class="stat"><div class="stat-num">13<span>rb</span></div><div class="stat-label">Mulai Dari</div></div>
+    <div class="stat"><div class="stat-num" id="statCustomers">100<span>+</span></div><div class="stat-label">Pelanggan Puas</div></div>
+    <div class="stat"><div class="stat-num" id="statPrice">13<span>rb</span></div><div class="stat-label">Mulai Dari</div></div>
   </div>
 </header>
 
@@ -317,14 +333,14 @@ footer {
 </div>
 
 <footer id="contact">
-  <div class="footer-logo">Icebear</div>
+  <div class="footer-logo" id="footerSiteName">e-Gift</div>
   <p class="footer-tagline">Template Web Ucapan Premium — Mudah, Cepat, Berkesan.</p>
   <div class="footer-socials">
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-tiktok"></i></a>
-    <a href="https://wa.me/628892250711"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok" aria-hidden="true"></i></a>
+    <a href="https://wa.me/628892250711" id="footerWaLink" aria-label="WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
   </div>
-  <p class="footer-copy">© 2026 Icebear Web Store · Dibuat dengan <span>♥</span> di Indonesia</p>
+  <p class="footer-copy" id="footerCopy">© 2026 e-Gift Web Store · Dibuat dengan <span>♥</span> di Indonesia</p>
 </footer>
 
 <div id="modalDemo" class="modal-demo">
@@ -343,9 +359,24 @@ footer {
 
 <script>
 // ============================================================
-//  DATA TEMPLATE — Tambah web baru cukup di sini saja ✏️
+//  ⚙️ KONFIGURASI SITUS — Cukup ubah di sini untuk ganti
+//  nama toko, logo, nomor WA, atau angka statistik di hero.
+//  Tidak perlu menyentuh bagian HTML/CSS di atas.
 // ============================================================
-const WA = '628892250711';
+const CONFIG = {
+  siteName: 'e-Gift',                 // Nama brand/toko
+  logoPath: 'img/logo.png',           // Path file logo (upload ke folder img/)
+  waNumber: '628892250711',           // Nomor WhatsApp tujuan (format 62xxxx)
+  heroCustomers: { value: '100', suffix: '+' },  // Statistik "Pelanggan Puas"
+  heroStartPrice: { value: '13', suffix: 'rb' }, // Statistik "Mulai Dari"
+};
+
+// ============================================================
+//  DATA TEMPLATE — Tambah web baru cukup di sini saja ✏️
+//  Field thumb, thumbBg, dan badge boleh dikosongkan ('') jika
+//  belum ada — kartu akan tetap tampil rapi dengan nilai default.
+// ============================================================
+const WA = CONFIG.waNumber;
 
 const TEMPLATES = [
   {
@@ -472,23 +503,48 @@ const TEMPLATES = [
 ];
 
 // ============================================================
+//  APPLY CONFIG — Menyalin CONFIG ke seluruh bagian halaman
+//  (judul tab, navbar, footer, statistik hero, dst).
+// ============================================================
+function applyConfig() {
+  document.title = document.title.replace('e-Gift', CONFIG.siteName);
+  document.getElementById('navSiteName').textContent = CONFIG.siteName;
+  document.getElementById('footerSiteName').textContent = CONFIG.siteName;
+  document.getElementById('footerCopy').innerHTML =
+    `© 2026 ${CONFIG.siteName} Web Store · Dibuat dengan <span>♥</span> di Indonesia`;
+  document.getElementById('footerWaLink').href = `https://wa.me/${CONFIG.waNumber}`;
+  document.getElementById('statCustomers').innerHTML =
+    `${CONFIG.heroCustomers.value}<span>${CONFIG.heroCustomers.suffix}</span>`;
+  document.getElementById('statPrice').innerHTML =
+    `${CONFIG.heroStartPrice.value}<span>${CONFIG.heroStartPrice.suffix}</span>`;
+
+  // Pasang logo di navbar; jika file belum ada, sembunyikan img
+  // dan tampilkan titik aksen sebagai pengganti.
+  const navLogoImg = document.querySelector('.nav-logo-img');
+  navLogoImg.src = CONFIG.logoPath;
+}
+
+// ============================================================
 //  RENDER — Jangan ubah bagian ini
 // ============================================================
 function waLink(t) {
-  const msg = `Halo Icebear! Saya ingin pesan ${t.name} (${t.price}) 🎉\n\nMohon info lebih lanjut ya, terima kasih!`;
+  const msg = `Halo ${CONFIG.siteName}! Saya ingin pesan ${t.name} (${t.price}) 🎉\n\nMohon info lebih lanjut ya, terima kasih!`;
   return `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
 }
 
 function renderCards() {
   const grid = document.getElementById('cardGrid');
-  grid.innerHTML = TEMPLATES.map(t => `
+  grid.innerHTML = TEMPLATES.map(t => {
+    const thumbBg = t.thumbBg || 'linear-gradient(135deg,#241419,#3a1c26)';
+    const emoji = t.emoji || '🎁';
+    return `
     <div class="card">
-      ${t.badge ? `<div class="card-badge ${t.badgeClass}">${t.badge}</div>` : ''}
-      <img src="${t.thumb}" class="thumbnail"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="thumb-placeholder" style="display:none;background:${t.thumbBg}">${t.emoji}</div>
+      ${t.badge ? `<div class="card-badge ${t.badgeClass || ''}">${t.badge}</div>` : ''}
+      ${t.thumb ? `<img src="${t.thumb}" class="thumbnail" alt="Pratinjau ${t.name}" loading="lazy" decoding="async"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
+      <div class="thumb-placeholder" style="${t.thumb ? 'display:none;' : ''}background:${thumbBg}">${emoji}</div>
       <div class="card-content">
-        <div class="card-title"><i class="fas ${t.icon}"></i> ${t.name}</div>
+        <div class="card-title"><i class="fas ${t.icon}" aria-hidden="true"></i> ${t.name}</div>
         <div class="card-desc">${t.desc}</div>
         <div class="free-request">
           <span class="free-request-label">✦ Free</span>
@@ -504,15 +560,16 @@ function renderCards() {
         </div>
         <div class="card-actions">
           <button class="btn-demo" onclick="openDemo('${t.demo}','${t.name}')">
-            <i class="fas fa-eye"></i> Live Demo
+            <i class="fas fa-eye" aria-hidden="true"></i> Live Demo
           </button>
-          <a class="btn-order" href="${waLink(t)}" target="_blank">
-            <i class="fab fa-whatsapp"></i> Pesan Sekarang
+          <a class="btn-order" href="${waLink(t)}" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> Pesan Sekarang
           </a>
         </div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   // Update stat count otomatis
   document.getElementById('statCount').innerHTML = `${TEMPLATES.length}<span>+</span>`;
@@ -534,7 +591,11 @@ document.getElementById('modalDemo').addEventListener('click', function(e) {
   if (e.target === this) closeDemo();
 });
 document.getElementById('modalDemo').addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDemo();
+});
 
+applyConfig();
 renderCards();
 </script>
 </body>
